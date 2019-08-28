@@ -5,9 +5,9 @@ from treelib import __version__
 setup(
     name="treelib",
     version=__version__,
-    url='https://github.com/caesar0301/treelib',
-    author='Xiaming Chen',
-    author_email='chenxm35@gmail.com',
+    url='https://github.com/secfree/treelib',
+    author='secfree',
+    author_email='secfree.teng@gmail.com',
     description='A Python 2/3 implementation of tree structure.',
     long_description='''This is a simple tree data structure implementation in python.''',
     license="Apache License, Version 2.0",

@@ -191,18 +191,20 @@ class Tree(object):
 
         # render characters
         dt = {
-            'ascii': ('|', '|-- ', '+-- '),
-            'ascii-ex': ('\u2502', '\u251c\u2500\u2500 ', '\u2514\u2500\u2500 '),
-            'ascii-exr': ('\u2502', '\u251c\u2500\u2500 ', '\u2570\u2500\u2500 '),
-            'ascii-em': ('\u2551', '\u2560\u2550\u2550 ', '\u255a\u2550\u2550 '),
-            'ascii-emv': ('\u2551', '\u255f\u2500\u2500 ', '\u2559\u2500\u2500 '),
-            'ascii-emh': ('\u2502', '\u255e\u2550\u2550 ', '\u2558\u2550\u2550 '),
+            'ascii': ('|', '|-- ', '+-- ', ''),
+            'ascii-ex': ('\u2502', '\u251c\u2500\u2500 ', '\u2514\u2500\u2500 ', ''),
+            'ascii-exr': ('\u2502', '\u251c\u2500\u2500 ', '\u2570\u2500\u2500 ', ''),
+            'ascii-em': ('\u2551', '\u2560\u2550\u2550 ', '\u255a\u2550\u2550 ', ''),
+            'ascii-emv': ('\u2551', '\u255f\u2500\u2500 ', '\u2559\u2500\u2500 ', ''),
+            'ascii-emh': ('\u2502', '\u255e\u2550\u2550 ', '\u2558\u2550\u2550 ', ''),
+            'space': ('', '    ', '    ', ''),
+            'markdown-list': ('', '    - ', '    - ', '- ')
         }[line_type]
 
         return self.__get_iter(nid, level, filter_, key, reverse, dt, [])
 
     def __get_iter(self, nid, level, filter_, key, reverse, dt, is_last):
-        dt_vline, dt_line_box, dt_line_cor = dt
+        dt_vline, dt_line_box, dt_line_cor, root_prefix = dt
         leading = ''
         lasting = dt_line_box
 
@@ -213,7 +215,7 @@ class Tree(object):
         node = self[nid]
 
         if level == self.ROOT:
-            yield "", node
+            yield root_prefix, node
         else:
             leading = ''.join(map(lambda x: dt_vline + ' ' * 3
                                   if not x else ' ' * 4, is_last[0:-1]))
