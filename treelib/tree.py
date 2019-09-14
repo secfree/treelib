@@ -32,6 +32,7 @@ from __future__ import unicode_literals
 import codecs
 import json
 import sys
+import inspect
 from copy import deepcopy
 
 try:
@@ -160,10 +161,16 @@ class Tree(object):
         if data_property:
             if idhidden:
                 def get_label(node):
-                    return getattr(node.data, data_property)
+                    attr = getattr(node.data, data_property)
+                    if inspect.ismethod(attr):
+                        return attr()
+                    return attr
             else:
                 def get_label(node):
-                    return "%s[%s]" % (getattr(node.data, data_property), node.identifier)
+                    attr = getattr(node.data, data_property)
+                    if inspect.ismethod(attr):
+                        "%s[%s]" % (attr(), node.identifier)
+                    return "%s[%s]" % (attr, node.identifier)
         else:
             if idhidden:
                 def get_label(node):
@@ -742,7 +749,7 @@ class Tree(object):
         except NodeIDAbsentError:
             print('Tree is empty')
 
-        print(self._reader)
+        print(self._reader.encode('utf-8', 'ignore'))
 
     def siblings(self, nid):
         """
